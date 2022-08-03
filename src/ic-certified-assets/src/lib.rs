@@ -230,3 +230,16 @@ fn candid_interface_compatibility() {
     )
     .expect("The assets canister interface is not compatible with the assets.did file");
 }
+
+pub fn get_asset_b(key: &str) -> RcBytes {
+    let arg = GetChunkArg {
+        index: Nat::from(0),
+        key: key.to_string(),
+        content_encoding: "identity".to_string(),
+        sha256: None
+    };
+    STATE.with(|s| match s.borrow().get_chunk(arg) {
+        Ok(content) => content,
+        Err(msg) => trap(&msg),
+    })
+}
