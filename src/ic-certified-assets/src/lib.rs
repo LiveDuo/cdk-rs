@@ -13,7 +13,7 @@ use crate::{
     state_machine::{AssetDetails, EncodedAsset, State},
     types::*,
 };
-use candid::{candid_method, Principal};
+use candid::{candid_method, Principal, Nat};
 use ic_cdk::api::{caller, data_certificate, set_certified_data, time, trap};
 use ic_cdk_macros::{query, update};
 use std::cell::RefCell;
