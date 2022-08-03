@@ -10,7 +10,7 @@ mod tests;
 pub use crate::state_machine::StableState;
 use crate::{
     rc_bytes::RcBytes,
-    state_machine::{AssetDetails, EncodedAsset, State},
+    state_machine::{AssetDetails, EncodedAsset, State, Asset},
     types::*,
 };
 use candid::{candid_method, Principal, Nat};
