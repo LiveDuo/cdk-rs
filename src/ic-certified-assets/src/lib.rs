@@ -230,3 +230,9 @@ fn candid_interface_compatibility() {
     )
     .expect("The assets canister interface is not compatible with the assets.did file");
 }
+
+ #[query]
+ #[candid_method(query)]
+pub fn list() -> Vec<AssetDetails> {
+    STATE.with(|s| s.borrow().list_assets())
+}
