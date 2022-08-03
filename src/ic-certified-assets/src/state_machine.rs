@@ -837,3 +837,7 @@ fn redirect_to_url(host: &str, url: &str) -> Option<String> {
     }
     None
 }
+
+pub fn get2(&self, key: &str) -> Result<Asset, String> {
+    Ok(self.assets.get(key).unwrap().clone())
+}
