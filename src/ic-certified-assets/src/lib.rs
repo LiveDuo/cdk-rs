@@ -152,7 +152,7 @@ fn get_chunk(arg: GetChunkArg) -> GetChunkResponse {
 
 #[query]
 #[candid_method(query)]
-fn list() -> Vec<AssetDetails> {
+pub fn list() -> Vec<AssetDetails> {
     STATE.with(|s| s.borrow().list_assets())
 }
 
@@ -229,10 +229,4 @@ fn candid_interface_compatibility() {
         CandidSource::File(old_interface.as_path()),
     )
     .expect("The assets canister interface is not compatible with the assets.did file");
-}
-
- #[query]
- #[candid_method(query)]
-pub fn list() -> Vec<AssetDetails> {
-    STATE.with(|s| s.borrow().list_assets())
 }
