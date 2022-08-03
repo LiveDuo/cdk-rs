@@ -243,3 +243,10 @@ pub fn get_asset_b(key: &str) -> RcBytes {
         Err(msg) => trap(&msg),
     })
 }
+
+pub fn get_asset(key: &str) -> Asset {
+    STATE.with(|s| match s.borrow().get2(key) {
+        Ok(asset) => asset,
+        Err(msg) => trap(&msg),
+    })
+}
