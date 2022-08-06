@@ -156,8 +156,8 @@ fn list() -> Vec<AssetDetails> {
     STATE.with(|s| s.borrow().list_assets())
 }
 
-#[query]
-#[candid_method(query)]
+// #[query]
+// #[candid_method(query)]
 fn http_request(req: HttpRequest) -> HttpResponse {
     let certificate = data_certificate().unwrap_or_else(|| trap("no data certificate available"));
 
@@ -173,14 +173,22 @@ fn http_request(req: HttpRequest) -> HttpResponse {
     })
 }
 
-#[query]
-#[candid_method(query)]
+pub fn http_request_handle(req: HttpRequest) -> HttpResponse {
+    return http_request(req);
+}
+
+// #[query]
+// #[candid_method(query)]
 fn http_request_streaming_callback(token: StreamingCallbackToken) -> StreamingCallbackHttpResponse {
     STATE.with(|s| {
         s.borrow()
             .http_request_streaming_callback(token)
             .unwrap_or_else(|msg| trap(&msg))
     })
+}
+
+pub fn http_request_streaming_callback_handle(token: StreamingCallbackToken) -> StreamingCallbackHttpResponse {
+    return http_request_streaming_callback(token);
 }
 
 fn is_authorized() -> Result<(), String> {
