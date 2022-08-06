@@ -359,7 +359,7 @@ impl State {
         }
         Err("no such encoding".to_string())
     }
-    
+
     pub fn get_chunk(&self, arg: GetChunkArg) -> Result<RcBytes, String> {
         let asset = self
             .assets
