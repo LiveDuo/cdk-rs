@@ -134,7 +134,7 @@ fn commit_batch(arg: CommitBatchArguments) {
 
 #[query]
 #[candid_method(query)]
-pub fn get(arg: GetArg) -> EncodedAsset {
+fn get(arg: GetArg) -> EncodedAsset {
     STATE.with(|s| match s.borrow().get(arg) {
         Ok(asset) => asset,
         Err(msg) => trap(&msg),
@@ -152,7 +152,7 @@ fn get_chunk(arg: GetChunkArg) -> GetChunkResponse {
 
 #[query]
 #[candid_method(query)]
-pub fn list() -> Vec<AssetDetails> {
+fn list() -> Vec<AssetDetails> {
     STATE.with(|s| s.borrow().list_assets())
 }
 
