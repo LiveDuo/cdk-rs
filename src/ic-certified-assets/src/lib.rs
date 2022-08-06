@@ -10,7 +10,7 @@ mod tests;
 pub use crate::state_machine::StableState;
 use crate::{
     rc_bytes::RcBytes,
-    state_machine::{AssetDetails, EncodedAsset, State, Asset},
+    state_machine::{AssetDetails, EncodedAsset, State},
     types::*,
 };
 use candid::{candid_method, Principal, Nat};
@@ -134,7 +134,7 @@ fn commit_batch(arg: CommitBatchArguments) {
 
 #[query]
 #[candid_method(query)]
-fn get(arg: GetArg) -> EncodedAsset {
+pub fn get(arg: GetArg) -> EncodedAsset {
     STATE.with(|s| match s.borrow().get(arg) {
         Ok(asset) => asset,
         Err(msg) => trap(&msg),
@@ -231,9 +231,9 @@ fn candid_interface_compatibility() {
     .expect("The assets canister interface is not compatible with the assets.did file");
 }
 
-pub fn get_asset_b(key: &str) -> RcBytes {
+pub fn get_asset_chunk(key: &str, index: usize) -> RcBytes {
     let arg = GetChunkArg {
-        index: Nat::from(0),
+        index: Nat::from(index),
         key: key.to_string(),
         content_encoding: "identity".to_string(),
         sha256: None
@@ -244,9 +244,22 @@ pub fn get_asset_b(key: &str) -> RcBytes {
     })
 }
 
-pub fn get_asset(key: &str) -> Asset {
-    STATE.with(|s| match s.borrow().get2(key) {
-        Ok(asset) => asset,
-        Err(msg) => trap(&msg),
-    })
+pub fn get_asset(asset_name: String) -> Vec<u8> {
+	
+    let arg = GetArg {
+        key: asset_name.to_owned(),
+        accept_encodings: vec!["identity".to_owned()]
+    };
+	let asset_data = get(arg);
+
+	let mut chunk_index = 0;
+	let mut chunks_all = vec![];
+	let mut current_length = 0;
+    while Nat::lt(&Nat::from(current_length), &asset_data.total_length) {
+		let chunk = get_asset_chunk(&asset_name, chunk_index).as_ref().to_vec();
+        chunks_all.extend(chunk.iter().cloned());
+		current_length += chunk.len();
+		chunk_index += 1;
+	}
+	return chunks_all;
 }
