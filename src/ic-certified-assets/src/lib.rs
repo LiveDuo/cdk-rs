@@ -271,3 +271,7 @@ pub fn get_asset(asset_name: String) -> Vec<u8> {
 	}
 	return chunks_all;
 }
+
+pub fn store_asset(arg: StoreArg) {
+    store(arg);
+}
