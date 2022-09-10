@@ -275,3 +275,7 @@ pub fn get_asset(asset_name: String) -> Vec<u8> {
 pub fn store_asset(arg: StoreArg) {
     store(arg);
 }
+
+pub fn list_assets() -> Vec<AssetDetails> {
+    list()
+}
