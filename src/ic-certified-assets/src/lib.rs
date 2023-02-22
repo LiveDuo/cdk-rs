@@ -279,3 +279,17 @@ pub fn store_asset(arg: StoreArg) {
 pub fn list_assets() -> Vec<AssetDetails> {
     list()
 }
+
+pub fn exists(asset_name: &str) -> bool {
+
+    let arg = GetArg {
+        key: asset_name.to_owned(),
+        accept_encodings: vec!["identity".to_owned()]
+    };
+
+    STATE.with(|s| match s.borrow().get(arg) {
+        Ok(asset) => true,
+        Err(msg) => false,
+    })
+}
+
