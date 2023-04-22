@@ -105,7 +105,7 @@ fn unset_asset_content(arg: UnsetAssetContentArguments) {
 
 #[update(guard = "is_authorized")]
 #[candid_method(update)]
-pub fn delete_asset(arg: DeleteAssetArguments) {
+fn delete_asset(arg: DeleteAssetArguments) {
     STATE.with(|s| {
         s.borrow_mut().delete_asset(arg);
         set_certified_data(&s.borrow().root_hash());
@@ -274,6 +274,10 @@ pub fn get_asset(asset_name: String) -> Vec<u8> {
 
 pub fn store_asset(arg: StoreArg) {
     store(arg);
+}
+	    
+pub fn delete(arg: DeleteAssetArguments) {
+    delete_asset(arg);
 }
 
 pub fn list_assets() -> Vec<AssetDetails> {
