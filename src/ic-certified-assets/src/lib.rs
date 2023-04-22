@@ -105,7 +105,7 @@ fn unset_asset_content(arg: UnsetAssetContentArguments) {
 
 #[update(guard = "is_authorized")]
 #[candid_method(update)]
-fn delete_asset(arg: DeleteAssetArguments) {
+pub fn delete_asset(arg: DeleteAssetArguments) {
     STATE.with(|s| {
         s.borrow_mut().delete_asset(arg);
         set_certified_data(&s.borrow().root_hash());
